@@ -1,0 +1,80 @@
+import os
+import random
+import requests
+import discord
+from discord.ext import commands
+from bot_logic import gen_pass
+
+# Configuración de intents del bot
+intents = discord.Intents.default()
+intents.message_content = True
+
+# Definir el prefijo de los comandos (en este caso '$')
+bot = commands.Bot(command_prefix="$", intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f"Logged in as ({bot.user.id})")
+    print("--------")
+
+# Comandos de texto
+@bot.command()
+async def reciclarbasura(ctx):
+    await ctx.send("Es bueno para el medio ambiente")
+
+@bot.command()
+async def reciclar(ctx):
+    await ctx.send("¡Está muy bien hacerlo!")
+
+@bot.command()
+async def medioambiente1(ctx):
+    await ctx.send("Cuidar")
+
+@bot.command()
+async def lanzarcohetes(ctx):
+    await ctx.send("Contaminan el medio ambiente")
+
+@bot.command()
+async def baterias(ctx):
+    await ctx.send("Contaminan el medio ambiente")
+
+@bot.command()
+async def hola(ctx):
+    await ctx.send("¡Hola!")
+
+@bot.command()
+async def lanzaresiduos(ctx):
+    await ctx.send("Contaminan el medio ambiente")
+
+@bot.command()
+async def tiposdebasura(ctx):
+    await ctx.send("Hay muchos tipos de basura.")
+
+@bot.command()
+async def menu(ctx):
+    await ctx.send("Lista de comandos: $reciclarbasura, $reciclar, $medioambiente, $lanzarcohetes, $tiposdebasura, $baterias, $lanzaresiduos")
+
+@bot.command()
+async def tierratriste(ctx):
+    folder = 'images'
+    
+    if not os.path.exists(folder):
+        await ctx.send("¡Ups! No encuentro la carpeta llamada 'images'.")
+        return
+
+    # Busca archivos que empiecen con 'tierratriste'
+    matching_files = [f for f in os.listdir(folder) if f.lower().startswith('tierratriste')]
+    
+    if not matching_files:
+        await ctx.send("No encontré ninguna imagen de tierratriste en la carpeta.")
+        return
+
+    img_name = matching_files[0]
+    img_path = os.path.join(folder, img_name)
+    
+    with open(img_path, 'rb') as f:
+        picture = discord.File(f)
+        
+    await ctx.send(file=picture)
+# Ejecutar el bot con su token
+bot.run("")
